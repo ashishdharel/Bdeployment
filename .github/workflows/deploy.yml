@@ -33,7 +33,7 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag backendapp:latest 654654282708.dkr.ecr.ap-southeast-1.amazonaws.com/backendendapp:${{ github.ref_name }}-latest
+          docker tag backendapp:latest 654654282708.dkr.ecr.ap-southeast-1.amazonaws.com/backendapp:${{ github.ref_name }}-latest
 
       - name: Push Docker image to Amazon ECR
         run: |
