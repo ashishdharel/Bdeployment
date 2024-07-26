@@ -3,11 +3,11 @@ name: Build, publish, and deploy Docker image to EC2
 on:
   push:
     branches:
-      - master
       - dev
       - qa
       - stage
-
+      - production
+      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,15 +29,15 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t frontendapp .
+          docker build -t backendapp .
 
       - name: Tag Docker image
         run: |
-          docker tag frontendapp:latest 654654282708.dkr.ecr.ap-southeast-1.amazonaws.com/frontendapp:${{ github.ref_name }}-latest
+          docker tag backendapp:latest 654654282708.dkr.ecr.ap-southeast-1.amazonaws.com/backendendapp:${{ github.ref_name }}-latest
 
       - name: Push Docker image to Amazon ECR
         run: |
-          docker push 654654282708.dkr.ecr.ap-southeast-1.amazonaws.com/frontendapp:${{ github.ref_name }}-latest
+          docker push 654654282708.dkr.ecr.ap-southeast-1.amazonaws.com/backendapp:${{ github.ref_name }}-latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,12 +54,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            if [ "${{ github.ref_name }}" == "master" ]; then
-              sh deploy-production.sh
+            if [ "${{ github.ref_name }}" == "production" ]; then
+              sh deploy-bproduction.sh
             elif [ "${{ github.ref_name }}" == "stage" ]; then
-              sh deploy-stage.sh
+              sh deploy-bstage.sh
             elif [ "${{ github.ref_name }}" == "qa" ]; then
-              sh deploy-qa.sh
+              sh deploy-bqa.sh
             elif [ "${{ github.ref_name }}" == "dev" ]; then
-              sh deploy-dev.sh
+              sh deploy-bdev.sh
             fi
