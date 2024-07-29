@@ -7,7 +7,18 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Secure CORS configuration
-app.use(cors());
+const allowedOrigins = ['http://ashish.learn.cloudlaya.com:3000'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true  // if your frontend requires credentials (cookies, HTTP authentication)
+};
+app.use(cors(corsOptions));
 
 // Body parser middleware
 app.use(bodyParser.json());
