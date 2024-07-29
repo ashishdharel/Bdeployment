@@ -6,24 +6,30 @@ const mysql = require('mysql2');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Secure CORS configuration
-const allowedOrigins = ['http://ashish.learn.cloudlaya.com:3000'];
+// CORS configuration
+const allowedOrigins = [
+  'http://localhost:3000', // For local development
+  'https://yourdomain.com' // For production (change to your domain)
+];
+
 const corsOptions = {
   origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true  // if your frontend requires credentials (cookies, HTTP authentication)
+  credentials: true // Allow credentials if needed (cookies, HTTP authentication)
 };
+
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 // Body parser middleware
 app.use(bodyParser.json());
 
-// MySQL connection pool
+// MySQL connection pool setup
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || '3306',
@@ -41,8 +47,6 @@ pool.getConnection((err, connection) => {
     console.error('Server will continue running without database connection.');
   } else {
     console.log('Connected to MySQL');
-    dbConnected = true;
-    // Test query to verify connection
     connection.query('SELECT 1', (err, results) => {
       connection.release();
       if (err) {
@@ -50,6 +54,7 @@ pool.getConnection((err, connection) => {
         dbConnected = false;
       } else {
         console.log('MySQL connection test successful');
+        dbConnected = true;
       }
     });
   }
