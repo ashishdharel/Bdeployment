@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Secure CORS configuration
-const allowedOrigins = ['http://3.0.78.78:3000'];
+const allowedOrigins = ['http://ashish.learn.cloudlaya.com:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
