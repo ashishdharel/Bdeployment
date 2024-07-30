@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 
 // CORS configuration
 const allowedOrigins = [
-  'http://13.215.186.119:3000', // For local development
+  'http://13.215.186.119:3001', // For local development
   'http://stage-ashish.learn.cloudlaya.com' // Production domain
 ];
 
