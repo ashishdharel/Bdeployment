@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 // CORS configuration
 const allowedOrigins = [
   'http://3.0.50.87:3000', // For local development
-  'http://ashish.learn.cloudlaya.com:3000' // use For production (change to your domain)
+  'http://ashish.learn.cloudlaya.com' // Production domain
 ];
 
 const corsOptions = {
@@ -20,7 +20,7 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true // Allow credentials if needed (cookies, HTTP authentication)
+  credentials: true
 };
 
 app.use(cors(corsOptions));
@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 // MySQL connection pool setup
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || '3306',
+  port: process.env.DB_PORT || 3306,
   user: process.env.DB_USER || 'helloashish',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_DATABASE || 'hello',
