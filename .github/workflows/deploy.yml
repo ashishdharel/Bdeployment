@@ -54,12 +54,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            if [ "${{ github.ref_name }}" == "production" ]; then
-              sh deploy-bproduction.sh
-            elif [ "${{ github.ref_name }}" == "stage" ]; then
-              sh deploy-bstage.sh
-            elif [ "${{ github.ref_name }}" == "qa" ]; then
-              sh deploy-bqa.sh
-            elif [ "${{ github.ref_name }}" == "dev" ]; then
-              sh deploy-bdev.sh
-            fi
+            bash ~/${{ github.ref_name }}/backend/deploy.sh
